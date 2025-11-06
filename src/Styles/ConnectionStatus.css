@@ -1,0 +1,61 @@
+/* src/components/ConnectionStatus.css */
+
+.connection-status {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  color: #333;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  transition: background 0.3s ease;
+}
+
+/* ✅ When connected, green with pulsing glow */
+.status-dot.connected {
+  background: #10b981;
+  animation: pulse-green 2s infinite;
+}
+
+/* ❌ When disconnected, red static */
+.status-dot.disconnected {
+  background: #ef4444;
+}
+
+@keyframes pulse-green {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.2);
+  }
+}
+
+
+.status-dot.waiting {
+  background: #f59e0b; /* amber */
+  animation: pulse-amber 2s infinite;
+}
+.status-dot.both {
+  background: #10b981; /* green */
+  animation: pulse-green 2s infinite;
+}
+@keyframes pulse-amber {
+  0%,100%{opacity:1;transform:scale(1)}
+  50%{opacity:.6;transform:scale(1.2)}
+}
