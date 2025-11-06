@@ -1,8 +1,7 @@
 // src/api/gameApi.ts
 const BASE =
-  import.meta.env.VITE_API_BASE || "http://10.10.21.39:2108/api/games";
-export const WS_BASE =
-  import.meta.env.VITE_WS_BASE || "http://10.10.21.39:2108/ws";
+  import.meta.env.VITE_API_BASE || "https://gamesagent.onrender.com/api/games";
+export const WS_BASE = import.meta.env.VITE_WS_BASE || "https://gamesagent.onrender.com/ws";
 
 export interface GameState {
   id: string;
