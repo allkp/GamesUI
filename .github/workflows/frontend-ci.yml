@@ -6,8 +6,8 @@ on:
     branches: [main]
     paths:
       - "Tic-Tac-Teo/**"
-      - "./github/workflows/frontend-ci.yml"
-  pull_requests:
+      - ".github/workflows/frontend-ci.yml"
+  pull_request:
     branches: [main]
     paths:
       - "Tic-Tac-Teo/**"
