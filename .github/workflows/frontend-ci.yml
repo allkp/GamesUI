@@ -75,7 +75,7 @@ jobs:
             VITE_WS_BASE=/ws
 
       - name: scan image with Trivy
-        uses: aquasecurity/trivy-action@0.36.0
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
           image-ref: ghcr.io/allkp/tic-tac-teo-frontend:sha-${{ github.sha }}
           format: table
