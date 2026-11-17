@@ -1,4 +1,4 @@
-// src/hooks/useWebSocket.ts
+// src/CustomHooks/useWebSocket.ts
 import { useEffect, useRef, useState } from "react";
 import SockJS from "sockjs-client";
 import { Client, type IMessage } from "@stomp/stompjs";
@@ -40,7 +40,7 @@ export function useWebSocket(
         if (gameId) {
           client.subscribe(`/topic/game/${gameId}`, (message: IMessage) => {
             try {
-              const updated = JSON.parse(message.body) as GameState ;
+              const updated = JSON.parse(message.body) as GameState;
               onMessage(updated);
             } catch {
               console.error("⚠️ Failed to parse JSON:", message.body);
