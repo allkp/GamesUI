@@ -3,6 +3,28 @@ import React, { useState, useEffect } from "react";
 import { createGame, getGame, move, type GameState } from "../api/gameApi";
 import { useWebSocket } from "../CustomHooks/useWebSocket";
 
+type ApiErrorResponse = {
+	status: "error";
+	message?: string;
+};
+
+function isApiErrorResponse(value: unknown): value is ApiErrorResponse {
+	if (
+		typeof value !== "object" || 
+		value === null || 
+	        !("status" in value) || 
+	        value.status !== "error"
+	) {
+		return false;
+	}
+
+	return !("message" in value) || typeof value.message === "string";
+}
+
+function getErrorMessage(error: unknown, fallback: string): string {
+	return error instanceof Error && error.message ? error.message : fallback;
+}
+
 export const GamePage: React.FC = () => {
   const [game, setGame] = useState<GameState | null>(null);
   const [id, setId] = useState("");
@@ -28,8 +50,8 @@ export const GamePage: React.FC = () => {
       setGame(g);
       setId(g.id);
       setPlayerRole("X");
-    } catch (err: any) {
-      setError(err.message || "Failed to create room");
+    } catch (err: unknown) {
+      setError(getErrorMessage(err, "Failed to create room"));
     } finally {
       setLoadingAction(null);
     }
@@ -44,11 +66,15 @@ export const GamePage: React.FC = () => {
     setLoadingAction("join");
     try {
       const g = await getGame(trimmedId);
-      if ((g as any).status === "error") return setError((g as any).message);
+      //if ((g as any).status === "error") return setError((g as any).message);
+      if (isApiErrorResponse(g)) {
+	      setError(g.message ?? "Could not find room");
+	      return;
+      }
       setGame(g);
       setPlayerRole("O");
-    } catch (err: any) {
-      setError(err.message || "Could not find room");
+    } catch (err: unknown) {
+      setError(getErrorMessage(err, "Could not find room"));
     } finally {
       setLoadingAction(null);
     }
