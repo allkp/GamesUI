@@ -97,5 +97,5 @@ jobs:
       - name: Push scanned image to GHCR
         run: |
           docker push ghcr.io/allkp/tic-tac-teo-frontend:sha-${GITHUB_SHA}
-        docker push ghcr.io/allkp/tic-tac-teo-frontend:latest
+          docker push ghcr.io/allkp/tic-tac-teo-frontend:latest
 
