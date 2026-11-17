@@ -1,12 +1,12 @@
-// src/hooks/useWebSocket.ts
+// src/CustomHooks/useWebSocket.ts
 import { useEffect, useRef, useState } from "react";
 import SockJS from "sockjs-client";
 import { Client, type IMessage } from "@stomp/stompjs";
-import { WS_BASE } from "../api/gameApi";
+import { WS_BASE, type GameState } from "../api/gameApi";
 
 export function useWebSocket(
   gameId: string | null,
-  onMessage: (msg: any) => void,
+  onMessage: (msg: GameState) => void,
   onErrorMessage?: (msg: string) => void
 ) {
   const stompClient = useRef<Client | null>(null);
@@ -21,7 +21,7 @@ export function useWebSocket(
 
     const socket = new SockJS(WS_BASE);
     const client = new Client({
-      webSocketFactory: () => socket as any,
+      webSocketFactory: () => socket as unknown as WebSocket,
       reconnectDelay: 3000,
       debug: (msg) => console.log(msg),
 
@@ -40,7 +40,7 @@ export function useWebSocket(
         if (gameId) {
           client.subscribe(`/topic/game/${gameId}`, (message: IMessage) => {
             try {
-              const updated = JSON.parse(message.body);
+              const updated = JSON.parse(message.body) as GameState;
               onMessage(updated);
             } catch {
               console.error("⚠️ Failed to parse JSON:", message.body);
@@ -75,7 +75,7 @@ export function useWebSocket(
   }, [gameId, onMessage, onErrorMessage]);
 
   // Optional helper to send messages manually later
-  function send(destination: string, body: any) {
+  function send(destination: string, body: unknown) {
     if (stompClient.current?.connected) {
       stompClient.current.publish({
         destination,
