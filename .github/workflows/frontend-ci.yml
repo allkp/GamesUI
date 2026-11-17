@@ -11,7 +11,7 @@ on:
     branches: [main]
     paths:
       - "Tic-Tac-Teo/**"
-      - "./github/workflows/frontend-ci.yml"
+      - ".github/workflows/frontend-ci.yml"
 
 
 permissions:
