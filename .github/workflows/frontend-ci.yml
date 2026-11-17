@@ -69,6 +69,7 @@ jobs:
         with:
           context: ./Tic-Tac-Teo
           load: true
+          pull: true
           tags: ghcr.io/allkp/tic-tac-teo-frontend:sha-${{ github.sha }}
           build-args: |
             VITE_API_BASE=/api/games
@@ -92,7 +93,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Tag image as latest
-        run: docker tag ghcr.io/allkp/tic-tac-teo-frontend:sha=${GITHUB_SHA} ghcr.io/allkp/tic-tac-teo-frontend:latest
+        run: docker tag ghcr.io/allkp/tic-tac-teo-frontend:sha-${GITHUB_SHA} ghcr.io/allkp/tic-tac-teo-frontend:latest
 
       - name: Push scanned image to GHCR
         run: |
